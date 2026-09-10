@@ -13,14 +13,10 @@ if not os.path.exists(log_path):
 df = pd.read_csv(log_path)
 
 # 2. Clean and Filter the Data
-# Ensure Missing_Rate is numeric
 df['Missing_Rate'] = pd.to_numeric(df['Missing_Rate'], errors='coerce')
 
 # Filter for the specific degradation type (Pure MNAR)
 df_mnar = df[df['Degradation_Type'].str.contains("MNAR", na=False)]
-
-# NEW FILTER: Only keep the runs where TWO categories were masked
-#df_mnar = df_mnar[df_mnar['Features_Masked'] == 'capital-gain + education-num']
 
 #Filter for KDD data
 df_mnar = df[df['Features_Masked'] == 'INCOME+LASTGIFT']
@@ -33,10 +29,10 @@ sns.set_theme(style="whitegrid")
 
 # Define specific colors for each model to keep them consistent across graphs
 model_colors = {
-    'LogReg (Balanced)': '#1f77b4',         # Blue
-    'Random Forest (Balanced)': '#2ca02c',  # Green 
-    'XGBoost': '#ff7f0e',                   # Orange
-    'LightGBM': '#d62728'                   # Red
+    'LogReg (Balanced)': '#1f77b4',         
+    'Random Forest (Balanced)': '#2ca02c',  
+    'XGBoost': '#ff7f0e',                   
+    'LightGBM': '#d62728'                   
 }
 
 # 4. Create the Plotting Function
@@ -101,4 +97,4 @@ plot_metric(
     filename='kdd_mnar_accuracy_comparison.png'
 )
 
-print("\n🎉 All visualizations complete! Check the ../reports/figures/ folder.")
+print("\n All visualizations complete! Check the ../reports/figures/ folder.")
