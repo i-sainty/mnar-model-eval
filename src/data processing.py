@@ -31,11 +31,9 @@ preprocessor = ColumnTransformer(
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 # 6. Fit and Transform the Data
-# We fit only on the training data to prevent data leakage, then transform both sets
 X_train_processed = preprocessor.fit_transform(X_train)
 X_test_processed = preprocessor.transform(X_test)
 
-# Get feature names for transparency (optional, but good for EDA)
 encoded_cat_cols = preprocessor.named_transformers_['cat'].get_feature_names_out(categorical_cols)
 all_feature_names = numerical_cols + list(encoded_cat_cols)
 
@@ -46,10 +44,8 @@ print("Data processing complete. The dataset is now ready for the baseline model
 import joblib
 import os
 
-# Ensure the processed directory exists
 os.makedirs('../data/processed', exist_ok=True)
 
-# Save the processed arrays and the target series
 joblib.dump(X_train_processed, '../data/processed/X_train_processed.joblib')
 joblib.dump(X_test_processed, '../data/processed/X_test_processed.joblib')
 joblib.dump(y_train, '../data/processed/y_train.joblib')
