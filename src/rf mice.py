@@ -4,8 +4,7 @@ import os
 import csv
 from datetime import datetime
 
-# Specific imports for Random Forest and MICE
-from sklearn.experimental import enable_iterative_imputer # Must be imported before IterativeImputer
+from sklearn.experimental import enable_iterative_imputer 
 from sklearn.impute import IterativeImputer, SimpleImputer
 from sklearn.ensemble import RandomForestClassifier
 
@@ -59,7 +58,6 @@ def log_experiment_results(y_true, y_pred, model_name, deg_type, features, missi
 # 2. Load and Prepare the Data
 # ---------------------------------------------------------
 print("Loading raw data...")
-# Make sure 'census.csv' is in the same directory, or update this path
 df = pd.read_csv('census.csv') 
 
 # Binarize target variable
@@ -118,9 +116,9 @@ for rate in rates_to_test:
     # 3. Train Random Forest
     rf_model = RandomForestClassifier(
         n_estimators=100,
-        class_weight='balanced', # Crucial for handling the minority class
+        class_weight='balanced',
         random_state=42,
-        n_jobs=-1 # Uses all CPU cores for speed
+        n_jobs=-1
     )
     rf_model.fit(X_train_processed, y_train)
     
