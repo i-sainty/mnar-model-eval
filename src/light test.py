@@ -115,9 +115,9 @@ for rate in rates_to_test:
     
     # 3. Train LightGBM
     lgb_model = LGBMClassifier(
-        class_weight='balanced', # Elegantly handles the class imbalance
+        class_weight='balanced',
         random_state=42,
-        n_jobs=-1 # Uses all CPU cores
+        n_jobs=-1
     )
     lgb_model.fit(X_train_processed, y_train)
     
