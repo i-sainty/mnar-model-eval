@@ -5,12 +5,10 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 import joblib
 
 # 1. Load the text file (adjust the file path as needed)
-# If the file is tab-separated instead of comma-separated, change sep=',' to sep='\t'
 print("Loading KDD98 raw data...")
 df = pd.read_csv('cup98LRN.txt', sep=',', low_memory=False)
 
 # 2. Define Target and Predictors
-# TARGET_B is the binary "Did they donate?" flag. TARGET_D is the amount (which we drop for classification).
 X = df.drop(columns=['TARGET_B', 'TARGET_D'])
 y = df['TARGET_B']
 
@@ -18,7 +16,6 @@ y = df['TARGET_B']
 categorical_features = ['GENDER', 'HOMEOWNR', 'DOMAIN'] 
 numerical_features = ['AGE', 'INCOME', 'WEALTH1', 'HIT']
 
-# Filter X to only include our selected features to prevent memory crashes
 X = X[categorical_features + numerical_features]
 
 # 4. Create the Preprocessing Pipeline
