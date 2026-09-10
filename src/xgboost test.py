@@ -78,7 +78,7 @@ xgb_cat_pipeline = Pipeline([
 
 xgb_preprocessor = ColumnTransformer(
     transformers=[
-        ('num', 'passthrough', numerical_cols), # Pass raw NaNs straight to XGBoost!
+        ('num', 'passthrough', numerical_cols), # Pass raw NaNs straight to XGBoost
         ('cat', xgb_cat_pipeline, categorical_cols)
     ])
 
@@ -88,7 +88,7 @@ xgb_preprocessor = ColumnTransformer(
 rates_to_test = [0.0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.99] 
 
 print("\n" + "="*50)
-print("🚀 STARTING XGBOOST CASCADING FAILURE EXPERIMENT")
+print("STARTING XGBOOST CASCADING FAILURE EXPERIMENT")
 print("="*50)
 
 for rate in rates_to_test:
@@ -130,4 +130,4 @@ for rate in rates_to_test:
         imputer="Native Handling"
     )
 
-print("\n🎉 XGBOOST EXPERIMENTS COMPLETE! Check reports/experiment_log.csv")
+print("\nXGBOOST EXPERIMENTS COMPLETE! Check reports/experiment_log.csv")
