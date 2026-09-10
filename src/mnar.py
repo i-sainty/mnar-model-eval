@@ -7,7 +7,6 @@ def inject_mnar(X, y, target_column='capital-gain', missing_rate=0.30):
     Specifically targets individuals in the >50K bracket (y==1) 
     and masks their data in the target_column.
     """
-    # Create a copy so we do not overwrite the original clean data
     X_corrupted = X.copy()
     
     # 1. Identify the index of the wealthy individuals (y == 1)
@@ -17,7 +16,7 @@ def inject_mnar(X, y, target_column='capital-gain', missing_rate=0.30):
     num_to_drop = int(len(wealthy_indices) * missing_rate)
     
     # 3. Randomly select specific wealthy individuals to mask
-    np.random.seed(42) # Set seed for perfect reproducibility in your dissertation
+    np.random.seed(42) # Set seed for perfect reproducibility
     indices_to_mask = np.random.choice(wealthy_indices, size=num_to_drop, replace=False)
     
     # 4. Inject the missingness (NaN) 
@@ -27,6 +26,4 @@ def inject_mnar(X, y, target_column='capital-gain', missing_rate=0.30):
     
     return X_corrupted
 
-# --- How to Test the Function ---
-# Assuming you have your pre-processed X_train (DataFrame) and y_train from Step 1:
 # X_train_mnar_30 = inject_mnar(X_train, y_train, target_column='capital-gain', missing_rate=0.30)
