@@ -32,7 +32,6 @@ def inject_pure_mnar_multi(X, target_columns=['capital-gain', 'education-num'], 
     
     for col in target_columns:
         # 1. Sort the specific column from highest to lowest
-        # (This ensures the highest earners and highest educated are targeted independently)
         sorted_col = X_corrupted[col].sort_values(ascending=False)
         
         # 2. Calculate exactly how many rows to drop based on the threshold
@@ -56,7 +55,6 @@ def log_experiment_results(y_true, y_pred, model_name, deg_type, features, missi
     os.makedirs('../reports', exist_ok=True)
     log_file = '../reports/experiment_log.csv'
     
-    # Check if we need to write the CSV headers (if file doesn't exist yet)
     file_exists = os.path.isfile(log_file)
     
     # Extract specific metrics for the '>50K' class (which is class 1)
@@ -81,7 +79,7 @@ def log_experiment_results(y_true, y_pred, model_name, deg_type, features, missi
     with open(log_file, mode='a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=row.keys())
         if not file_exists:
-            writer.writeheader() # Write headers only once
+            writer.writeheader()
         writer.writerow(row)
         
     print(f"✅ Results successfully logged to {log_file}")
@@ -106,7 +104,7 @@ print("Injecting MNAR missingness...")
 X_train_mnar = inject_pure_mnar_multi(
     X_train, 
     target_columns=['capital-gain', 'education-num'], 
-    missing_rate=0.20  # Change this to 0.60, 0.80, etc. for later tests
+    missing_rate=0.20  # Change this to 0.60, 0.80, etc.
 )
 
 
@@ -161,7 +159,7 @@ log_experiment_results(
 # 5. Automated Experiment Loop
 # ---------------------------------------------------------
 
-# Define the exact thresholds you want to test in one list
+# Define the exact thresholds
 rates_to_test = [0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.99]
 
 for rate in rates_to_test:
@@ -189,8 +187,6 @@ for rate in rates_to_test:
     
     # 5. Output quick visual feedback to the console
     print(f"\n--- Quick Summary ({rate*100}%) ---")
-    # We only print a snippet to the console so it doesn't get flooded; 
-    # the real data goes to the CSV!
     print(classification_report(y_test, y_pred_degraded, target_names=['<=50K', '>50K']))
     
     # 6. Automatically log the current loop's results to your CSV
@@ -204,4 +200,4 @@ for rate in rates_to_test:
         imputer="Median"
     )
 
-print("\nALL EXPERIMENTS COMPLETE! Check reports/experiment_log.csv")
+print("\nALL Check reports/experiment_log.csv")
